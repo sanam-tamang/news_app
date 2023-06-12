@@ -18,9 +18,6 @@ class NewsTheme {
 
       textTheme: GoogleFonts.latoTextTheme(
 
-        TextTheme(
-                 
-        )
       )
     );
   }

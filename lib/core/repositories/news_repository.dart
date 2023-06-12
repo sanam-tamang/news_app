@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import 'package:news_app/core/exception/exception.dart';
+import 'package:news_app/core/exception_and_failure/exception.dart';
 
 import '../model/news.dart';
 
