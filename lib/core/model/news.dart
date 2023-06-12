@@ -18,10 +18,10 @@ class News {
   factory News.fromJson(Map<String, dynamic> json) {
     return News(
         source: Source.fromJson(json['source']),
-        title: json['title'],
-        description: json['description'],
+        title: json['title'] ?? 'null',
+        description: json['description'] ?? 'null',
         url: json['url'],
-        publishedAt: json['publishedAt'],
+        publishedAt: json['publishedAt'] ?? "null",
         urlToImage: json['urlToImage']);
   }
 }
@@ -32,6 +32,6 @@ class Source {
   Source({required this.name});
 
   factory Source.fromJson(Map<String, dynamic> json) {
-    return Source(name: json['name']);
+    return Source(name: json['name'] ?? 'null');
   }
 }

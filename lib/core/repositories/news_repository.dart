@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 
@@ -32,6 +33,7 @@ class NewsRepository {
     } else if (response.statusCode == 401) {
       throw AuthorizationUserException();
     } else {
+      log(response.statusCode.toString());
       throw ServerException();
     }
   }

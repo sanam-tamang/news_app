@@ -10,41 +10,47 @@ import '../../../../core/blocs/model.dart';
 import '../../../../core/exception_and_failure/failure_message.dart';
 import '../../../../core/model/news.dart';
 
-part 'get_news_event.dart';
-part 'get_news_state.dart';
+part 'get_search_new_event.dart';
+part 'get_search_news_state.dart';
 
-class GetNewsBloc extends Bloc<GetNewsEvent, GetNewsState> {
+class GetSearchNewsBloc extends Bloc<GetSearchNewsEvent, GetSearchNewsState> {
   final NewsRepository _repository;
-  GetNewsBloc({required NewsRepository repository})
+  GetSearchNewsBloc({required NewsRepository repository})
       : _repository = repository,
-        super(GetNewsInititalState()) {
-    on<GetNewsListEvent>(_onGetNewsEvent);
-    on<GetNewsListWithPageEvent>(_onGetnewsWithPage);
+        super(GetSearchNewsInitialState()) {
+    on<GetSearchNewsListEvent>(_onGetNewsEvent);
+    on<GetSearchNewsListWithPageEvent>(_onGetnewsWithPage);
+    on<ClearSearchNewsListEvent>(_onClearSearchEvent);
   }
 
   FutureOr<void> _onGetNewsEvent(
-      GetNewsListEvent event, Emitter<GetNewsState> emit) async {
+      GetSearchNewsListEvent event, Emitter<GetSearchNewsState> emit) async {
     try {
+      emit(GetSearchNewsLoadingState());
       final List<News> newsList = await _repository
           .getNews(GetNewsFilterationParam(newsType: event.newsType));
 
-      emit(GetNewsLoadedState(
+      emit(GetSearchNewsLoadedState(
           newsList: newsList,
           newsFilteration: NewsFilterationWithPageAndType(
               currentNewsType: event.newsType, currentPage: 1)));
     } on AuthorizationUserException {
-      emit(const GetNewsFailureState(message: FailureMessage.authFailureMsg));
+      emit(const GetSearchNewsFailureState(
+          message: FailureMessage.authFailureMsg));
     } on ServerException {
-      emit(const GetNewsFailureState(message: FailureMessage.serverFailureMsg));
+      emit(const GetSearchNewsFailureState(
+          message: FailureMessage.serverFailureMsg));
     } on SocketException {
-      emit(const GetNewsFailureState(message: ''));
+      emit(const GetSearchNewsFailureState(message: ''));
     }
   }
 
-  FutureOr<void> _onGetnewsWithPage(
-      GetNewsListWithPageEvent event, Emitter<GetNewsState> emit) async {
+  FutureOr<void> _onGetnewsWithPage(GetSearchNewsListWithPageEvent event,
+      Emitter<GetSearchNewsState> emit) async {
     final state = this.state;
-    if (state is GetNewsLoadedState) {
+    if (state is GetSearchNewsLoadedState) {
+      emit(GetSearchNewsLoadingState());
+
       int newPageToGet = state.newsFilteration.currentPage + 1;
       try {
         final List<News> newsList = await _repository.getNews(
@@ -52,17 +58,23 @@ class GetNewsBloc extends Bloc<GetNewsEvent, GetNewsState> {
                 newsType: state.newsFilteration.currentNewsType,
                 page: newPageToGet));
 
-        emit(GetNewsLoadedState(
+        emit(GetSearchNewsLoadedState(
             newsList: newsList,
             newsFilteration: NewsFilterationWithPageAndType(
                 currentNewsType: state.newsFilteration.currentNewsType,
                 currentPage: newPageToGet)));
       } on AuthorizationUserException {
-        emit(const GetNewsFailureState(message: FailureMessage.authFailureMsg));
+        emit(const GetSearchNewsFailureState(
+            message: FailureMessage.authFailureMsg));
       } on ServerException {
-        emit(const GetNewsFailureState(
+        emit(const GetSearchNewsFailureState(
             message: FailureMessage.serverFailureMsg));
       }
     }
+  }
+
+  void _onClearSearchEvent(
+      ClearSearchNewsListEvent event, Emitter<GetSearchNewsState> emit) {
+    emit(GetSearchNewsInitialState());
   }
 }

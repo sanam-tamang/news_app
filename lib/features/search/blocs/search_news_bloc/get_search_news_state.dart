@@ -1,21 +1,21 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-part of 'get_news_bloc.dart';
+part of 'get_search_news_bloc.dart';
 
-abstract class GetNewsState extends Equatable {
-  const GetNewsState();
+abstract class GetSearchNewsState extends Equatable {
+  const GetSearchNewsState();
 
   @override
   List<Object> get props => [];
 }
 
-class GetNewsInititalState extends GetNewsState {}
+class GetSearchNewsInitialState extends GetSearchNewsState {}
 
-class GetNewsLoadingState extends GetNewsState {}
+class GetSearchNewsLoadingState extends GetSearchNewsState {}
 
-class GetNewsLoadedState extends GetNewsState {
+class GetSearchNewsLoadedState extends GetSearchNewsState {
   final NewsFilterationWithPageAndType newsFilteration;
   final List<News> newsList;
-  const GetNewsLoadedState({
+  const GetSearchNewsLoadedState({
     required this.newsFilteration,
     required this.newsList,
   });
@@ -23,9 +23,9 @@ class GetNewsLoadedState extends GetNewsState {
   List<Object> get props => [newsList, newsFilteration];
 }
 
-class GetNewsFailureState extends GetNewsState {
+class GetSearchNewsFailureState extends GetSearchNewsState {
   final String message;
-  const GetNewsFailureState({
+  const GetSearchNewsFailureState({
     required this.message,
   });
   @override

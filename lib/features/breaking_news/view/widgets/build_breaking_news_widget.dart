@@ -22,22 +22,26 @@ class BuildBreakingNewsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraint) {
+      double imageHeight =
+          constraint.maxHeight < 600 ? 400 : constraint.maxHeight * 0.45;
       return CustomScrollView(
         slivers: [
           //0.45
           SliverToBoxAdapter(
             child: SizedBox(
-              height: constraint.maxHeight * 0.45,
+              height: imageHeight,
               child: _BuildNewsOfTheDayWidget(
                 newsList: newsList,
-                height: constraint.maxHeight * 0.45,
+                height: imageHeight,
               ),
             ),
           ),
           //0.55
           SliverToBoxAdapter(
             child: SizedBox.fromSize(
-              size: Size.fromHeight(constraint.maxHeight * 0.55),
+              size: Size.fromHeight(constraint.maxHeight < 600
+                  ? 500
+                  : constraint.maxHeight * 0.55),
               child: _BuildBreakingNewsData(newsList: newsList),
             ),
           )
@@ -111,7 +115,11 @@ class _BuildNewsOfTheDayWidget extends StatelessWidget {
                           fontWeight: FontWeight.bold),
                     ),
                   ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Container(
+                    padding: const EdgeInsets.all(4),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                       color: Colors.black.withOpacity(0.7),
@@ -165,7 +173,6 @@ class _BuildNewsOfTheDayWidget extends StatelessWidget {
 ///################## breaking new section ##########################
 class _BuildBreakingNewsData extends StatelessWidget {
   const _BuildBreakingNewsData({
-    super.key,
     required this.newsList,
   });
 
