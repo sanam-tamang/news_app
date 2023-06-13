@@ -8,7 +8,7 @@ import 'package:news_app/core/exception_and_failure/exception.dart';
 
 import '../model/news.dart';
 
-const String apiKey = "21b719eb317347ee9a8a46760aa3c4e6";
+const String apiKey = "8bbcbfd61f6d48289503eaee803d4217";
 
 class NewsRepository {
   final http.Client client;

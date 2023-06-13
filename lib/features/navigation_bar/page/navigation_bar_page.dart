@@ -22,7 +22,7 @@ class _NewsNavigationBarState extends State<NewsNavigationBar>
   late PageController controller;
   @override
   void initState() {
-    context.read<InternetConnectionCheckerBloc>();
+   
     pages = const [
       HomePage(),
       SearchNewsPage(),
