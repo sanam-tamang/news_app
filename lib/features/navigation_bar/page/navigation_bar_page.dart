@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:news_app/core/blocs/internet_connection_checker_bloc/internet_connection_checker_bloc.dart';
 import 'package:news_app/core/widgets/internet_connection_checker.dart';
 import 'package:news_app/features/breaking_news/view/pages/home_page.dart';
 import 'package:news_app/features/navigation_bar/bloc/change_navbar_index_cubit/change_navbar_indexer_cubit.dart';
@@ -22,7 +21,6 @@ class _NewsNavigationBarState extends State<NewsNavigationBar>
   late PageController controller;
   @override
   void initState() {
-   
     pages = const [
       HomePage(),
       SearchNewsPage(),

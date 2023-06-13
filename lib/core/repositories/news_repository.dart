@@ -8,7 +8,8 @@ import 'package:news_app/core/exception_and_failure/exception.dart';
 
 import '../model/news.dart';
 
-const String apiKey = "8bbcbfd61f6d48289503eaee803d4217";
+const String apiKey = "61b6946b9872402bb11894b84fe0d736";
+const int newsRepoPageSize = 10;
 
 class NewsRepository {
   final http.Client client;
@@ -17,7 +18,7 @@ class NewsRepository {
   });
   Future<List<News>> getNews(GetNewsFilterationParam param) async {
     String newsUrl =
-        "https://newsapi.org/v2/everything?q=${param.newsType}&sortBy=publishedAt&page=${param.page}";
+        "https://newsapi.org/v2/everything?q=${param.newsType}&sortBy=publishedAt&page=${param.page}&pageSize=$newsRepoPageSize";
 
     final response = await client
         .get(Uri.parse(newsUrl), headers: {'authorization': 'Bearer $apiKey'});
@@ -32,8 +33,10 @@ class NewsRepository {
       return newsList;
     } else if (response.statusCode == 401) {
       throw AuthorizationUserException();
+    } else if (response.statusCode == 426 || response.statusCode == 429) {
+      throw ServerUpgradationRequired426And429();
     } else {
-      log(response.statusCode.toString());
+      log("status code is  ${response.statusCode}");
       throw ServerException();
     }
   }

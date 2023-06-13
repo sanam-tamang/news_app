@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,6 +43,9 @@ class GetSearchNewsBloc extends Bloc<GetSearchNewsEvent, GetSearchNewsState> {
           message: FailureMessage.serverFailureMsg));
     } on SocketException {
       emit(const GetSearchNewsFailureState(message: ''));
+    } on ServerUpgradationRequired426And429 {
+      emit(const GetSearchNewsFailureState(
+          message: FailureMessage.updrationRequired426And429));
     }
   }
 
@@ -50,7 +54,6 @@ class GetSearchNewsBloc extends Bloc<GetSearchNewsEvent, GetSearchNewsState> {
     final state = this.state;
     if (state is GetSearchNewsLoadedState) {
       emit(GetSearchNewsLoadingState());
-
       int newPageToGet = state.newsFilteration.currentPage + 1;
       try {
         final List<News> newsList = await _repository.getNews(
@@ -58,8 +61,18 @@ class GetSearchNewsBloc extends Bloc<GetSearchNewsEvent, GetSearchNewsState> {
                 newsType: state.newsFilteration.currentNewsType,
                 page: newPageToGet));
 
+        if (newsList.length < newsRepoPageSize) {
+          log(" klength ${newsList.length} finished ");
+          GetSearchNewsLoadedState(
+              newsList: List.from(state.newsList),
+              newsFilteration: NewsFilterationWithPageAndType(
+                  currentNewsType: state.newsFilteration.currentNewsType,
+                  currentPage: state.newsFilteration.currentPage));
+          return;
+        }
+
         emit(GetSearchNewsLoadedState(
-            newsList: newsList,
+            newsList: List.from(state.newsList)..addAll(newsList),
             newsFilteration: NewsFilterationWithPageAndType(
                 currentNewsType: state.newsFilteration.currentNewsType,
                 currentPage: newPageToGet)));
@@ -69,6 +82,11 @@ class GetSearchNewsBloc extends Bloc<GetSearchNewsEvent, GetSearchNewsState> {
       } on ServerException {
         emit(const GetSearchNewsFailureState(
             message: FailureMessage.serverFailureMsg));
+      } on SocketException {
+        emit(const GetSearchNewsFailureState(message: ''));
+      } on ServerUpgradationRequired426And429 {
+        emit(const GetSearchNewsFailureState(
+            message: FailureMessage.updrationRequired426And429));
       }
     }
   }

@@ -1,0 +1,1 @@
+enum FetchWithPageEnum { hasFurtherDataToFetch, hasNotFurtherDataToFetch }

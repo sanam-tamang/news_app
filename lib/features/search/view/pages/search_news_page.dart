@@ -28,6 +28,7 @@ class _SearchNewsPageState extends State<SearchNewsPage>
     "Business",
     "Technology",
     "Entertainment",
+    "Sports",
   ];
 
   late TabController controller;
@@ -126,12 +127,15 @@ class _SearchNewsPageState extends State<SearchNewsPage>
                     (sclController) => BlocBuilder<GetNewsBloc, GetNewsState>(
                         builder: (context, state) {
                       if (state is GetNewsLoadingState) {
-                        return const NewsLoadingProgressIndicator();
+                        return const Center(
+                            child: NewsLoadingProgressIndicator());
                       } else if (state is GetNewsLoadedState &&
                           state.newsFilteration.currentNewsType ==
                               tabs[controller.index]) {
                         return ShowNewsWidget(
                           newsList: state.newsList,
+                          fetchWithPageEnum: state.fetchWithPage,
+                          
                         );
                       } else if (state is GetNewsFailureState) {
                         return BuildFailureWidget(

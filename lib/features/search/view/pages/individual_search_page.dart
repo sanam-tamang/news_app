@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/core/enum/fetch_data_with_page.dart';
 import 'package:news_app/core/widgets/internet_connection_checker.dart';
 import 'package:news_app/core/widgets/news_loading_progress_indicator.dart';
 import 'package:news_app/features/search/view/widget.dart/search_box_widget.dart';
@@ -78,7 +79,8 @@ class _IndividualSearchPageState extends State<IndividualSearchPage> {
                           }
                           return CustomScrollView(
                             slivers: [
-                              BuildNewsListData(newsList: state.newsList),
+                              ///TODO: need to change has futhr data with dyanimci valuel
+                              BuildNewsListData(newsList: state.newsList, fetchWithPageEnum: FetchWithPageEnum.hasFurtherDataToFetch,),
                             ],
                           );
                         } else if (state is GetSearchNewsFailureState) {

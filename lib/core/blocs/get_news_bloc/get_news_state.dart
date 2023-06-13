@@ -15,9 +15,11 @@ class GetNewsLoadingState extends GetNewsState {}
 class GetNewsLoadedState extends GetNewsState {
   final NewsFilterationWithPageAndType newsFilteration;
   final List<News> newsList;
+  final FetchWithPageEnum fetchWithPage;
   const GetNewsLoadedState({
     required this.newsFilteration,
     required this.newsList,
+    required this.fetchWithPage,
   });
   @override
   List<Object> get props => [newsList, newsFilteration];
@@ -31,4 +33,3 @@ class GetNewsFailureState extends GetNewsState {
   @override
   List<Object> get props => [message];
 }
-

@@ -6,7 +6,7 @@ import '../enum/internet_state_enum.dart';
 
 class NewsInternetChecker extends StatelessWidget {
   const NewsInternetChecker({super.key});
-//TODO:::
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<InternetConnectionCheckerBloc,

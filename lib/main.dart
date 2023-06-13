@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'News app',
+          title: 'World News',
           theme: NewsTheme.lightMode(),
           onGenerateRoute: NewsRoute.onGenerateRoute,
           home: const NewsNavigationBar(),
