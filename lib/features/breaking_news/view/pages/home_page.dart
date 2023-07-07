@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/core/widgets/build_failure_widget.dart';
-import 'package:news_app/features/breaking_news/view/widgets/build_breaking_news_widget.dart';
 
 import '../../../../core/blocs/get_news_bloc/get_news_bloc.dart';
+import '../../../../core/widgets/build_failure_widget.dart';
 import '../../../../core/widgets/news_loading_progress_indicator.dart';
+import '../widgets/build_breaking_news_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

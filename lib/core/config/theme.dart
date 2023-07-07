@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:news_app/core/config/pallet.dart';
+import 'pallet.dart';
 
 class NewsTheme {
   static ThemeData lightMode() {

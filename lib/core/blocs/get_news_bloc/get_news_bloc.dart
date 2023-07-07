@@ -3,9 +3,9 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/core/exception_and_failure/exception.dart';
+import '../../exception_and_failure/exception.dart';
 
-import 'package:news_app/core/repositories/news_repository.dart';
+import '../../repositories/news_repository.dart';
 
 import '../../../../core/blocs/model.dart';
 import '../../../../core/exception_and_failure/failure_message.dart';

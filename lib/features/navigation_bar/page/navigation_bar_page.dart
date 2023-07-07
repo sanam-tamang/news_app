@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,6 +21,7 @@ class _NewsNavigationBarState extends State<NewsNavigationBar>
     with AutomaticKeepAliveClientMixin {
   late List<Widget> pages;
   late PageController controller;
+  int currentPage = 0;
   @override
   void initState() {
     pages = const [
@@ -28,23 +31,37 @@ class _NewsNavigationBarState extends State<NewsNavigationBar>
     ];
 
     controller = PageController();
+    controller.addListener(() {
+      currentPage = controller.page!.toInt();
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return BlocBuilder<ChangeNavbarIndexerCubit, ChangeNavbarIndexerState>(
+    return BlocConsumer<ChangeNavbarIndexerCubit, ChangeNavbarIndexerState>(
+      listener: (context, state) {
+       
+          if (currentPage == state.index) {
+            log("hjello kitty");
+            return;
+          }
+          log("working");
+          controller.jumpToPage(state.index);
+        
+      },
       builder: (context, state) {
         return Scaffold(
           body: Column(
             children: [
               Expanded(
                 child: PageView.builder(
+                    controller: controller,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: pages.length,
                     itemBuilder: (context, index) {
-                      return pages[state.index];
+                      return pages[index];
                     }),
               ),
               const NewsInternetChecker(),
@@ -55,6 +72,7 @@ class _NewsNavigationBarState extends State<NewsNavigationBar>
                 labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
                 onDestinationSelected: (index) {
                   context.read<ChangeNavbarIndexerCubit>().changeIndex(index);
+                  controller.jumpToPage(index);
                 },
                 selectedIndex: state.index,
                 destinations: const [

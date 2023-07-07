@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/core/config/routes.dart';
-import 'package:news_app/core/repositories/news_repository.dart';
-import 'package:news_app/features/navigation_bar/page/navigation_bar_page.dart';
+import 'core/config/routes.dart';
+import 'core/repositories/news_repository.dart';
+import 'features/navigation_bar/page/navigation_bar_page.dart';
 
 import 'core/blocs/get_news_bloc/get_news_bloc.dart';
 import 'core/blocs/internet_connection_checker_bloc/internet_connection_checker_bloc.dart';
@@ -36,9 +36,8 @@ class MyApp extends StatelessWidget {
                 repository: RepositoryProvider.of<NewsRepository>(context)),
           ),
           BlocProvider(
-              create: (context) =>
-                  InternetConnectionCheckerBloc(internet: InternetConnectionCheckerPlus())
-                   ),
+              create: (context) => InternetConnectionCheckerBloc(
+                  internet: InternetConnectionCheckerPlus())),
           BlocProvider(create: (context) => ChangeNavbarIndexerCubit())
         ],
         child: MaterialApp(

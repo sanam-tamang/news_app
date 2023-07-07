@@ -10,10 +10,8 @@ Future<String?> getImgUrl(String imageUrl) async {
     (await NetworkAssetBundle(Uri.parse(imageUrl)).load(imageUrl))
         .buffer
         .asUint8List();
-    print("The image exists!");
     return imageUrl;
   } catch (e) {
-    print("Error: $e");
     return null;
   }
 }

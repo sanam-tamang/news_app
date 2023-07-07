@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/features/search/view/pages/individual_search_page.dart';
+import '../../features/search/view/pages/individual_search_page.dart';
 
 class NewsRoute {
   static Route onGenerateRoute(RouteSettings setting) {
